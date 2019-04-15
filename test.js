@@ -25,10 +25,22 @@ const {
 
 
 test("global versions only", t => {
+  const path = require("path");
+  const pathSeperator = (process.platform === "win32") ? ";" : ":";
+
   // check for locally installed npm
   check({ npm: "3.10.10" }, (error, result) => {
     console.log(`DEBUG-TRAVIS:
+    $cwd: ${process.cwd()}
+
     $PATH: ${process.env.PATH}
+
+    globalPath: ${process.env.PATH.replace(new RegExp(path.join(process.cwd(), "node_modules/.bin").replace(/\\/g, '\\\\') + pathSeperator, 'g'), "")}
+    globalPathAlt: ${
+      process.env.PATH
+      .replace(new RegExp(path.join(process.cwd(), "node_modules/.bin").replace(/\\/g, '\\\\') + pathSeperator, 'g'), "")
+      .replace(/.\/node_modules\/.bin/g, "")
+    }
 
     result: ${JSON.stringify(result)}
     `)
