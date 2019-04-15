@@ -27,6 +27,11 @@ const {
 test("global versions only", t => {
   // check for locally installed npm
   check({ npm: "3.10.10" }, (error, result) => {
+    console.log(`DEBUG-TRAVIS:
+    $PATH: ${process.env.PATH}
+
+    result: ${JSON.stringify(result)}
+    `)
     t.falsy(error);
     t.false(result.isSatisfied);
     t.truthy(result.versions.npm);
